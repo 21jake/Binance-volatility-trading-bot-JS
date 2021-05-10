@@ -1,0 +1,362 @@
+{
+    "BNBBUSD": {
+        "status": "TRADING",
+        "minPrice": "0.01000000",
+        "maxPrice": "10000.00000000",
+        "tickSize": "0.01000000",
+        "stepSize": "0.01000000",
+        "minQty": "0.01000000",
+        "maxQty": "9000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "BTCBUSD": {
+        "status": "TRADING",
+        "minPrice": "0.01000000",
+        "maxPrice": "1000000.00000000",
+        "tickSize": "0.01000000",
+        "stepSize": "0.00000100",
+        "minQty": "0.00000100",
+        "maxQty": "900.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "ETHBUSD": {
+        "status": "TRADING",
+        "minPrice": "0.01000000",
+        "maxPrice": "100000.00000000",
+        "tickSize": "0.01000000",
+        "stepSize": "0.00001000",
+        "minQty": "0.00001000",
+        "maxQty": "9000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "LTCBUSD": {
+        "status": "TRADING",
+        "minPrice": "0.01000000",
+        "maxPrice": "100000.00000000",
+        "tickSize": "0.01000000",
+        "stepSize": "0.00001000",
+        "minQty": "0.00001000",
+        "maxQty": "9000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "TRXBUSD": {
+        "status": "TRADING",
+        "minPrice": "0.00001000",
+        "maxPrice": "1000.00000000",
+        "tickSize": "0.00001000",
+        "stepSize": "0.10000000",
+        "minQty": "0.10000000",
+        "maxQty": "90000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "XRPBUSD": {
+        "status": "TRADING",
+        "minPrice": "0.00010000",
+        "maxPrice": "1000.00000000",
+        "tickSize": "0.00010000",
+        "stepSize": "0.10000000",
+        "minQty": "0.10000000",
+        "maxQty": "90000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "BNBUSDT": {
+        "status": "TRADING",
+        "minPrice": "0.01000000",
+        "maxPrice": "10000.00000000",
+        "tickSize": "0.01000000",
+        "stepSize": "0.01000000",
+        "minQty": "0.01000000",
+        "maxQty": "9000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "BTCUSDT": {
+        "status": "TRADING",
+        "minPrice": "0.01000000",
+        "maxPrice": "1000000.00000000",
+        "tickSize": "0.01000000",
+        "stepSize": "0.00000100",
+        "minQty": "0.00000100",
+        "maxQty": "900.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "ETHUSDT": {
+        "status": "TRADING",
+        "minPrice": "0.01000000",
+        "maxPrice": "100000.00000000",
+        "tickSize": "0.01000000",
+        "stepSize": "0.00001000",
+        "minQty": "0.00001000",
+        "maxQty": "9000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "LTCUSDT": {
+        "status": "TRADING",
+        "minPrice": "0.01000000",
+        "maxPrice": "100000.00000000",
+        "tickSize": "0.01000000",
+        "stepSize": "0.00001000",
+        "minQty": "0.00001000",
+        "maxQty": "9000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "TRXUSDT": {
+        "status": "TRADING",
+        "minPrice": "0.00001000",
+        "maxPrice": "1000.00000000",
+        "tickSize": "0.00001000",
+        "stepSize": "0.10000000",
+        "minQty": "0.10000000",
+        "maxQty": "90000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "XRPUSDT": {
+        "status": "TRADING",
+        "minPrice": "0.00010000",
+        "maxPrice": "1000.00000000",
+        "tickSize": "0.00010000",
+        "stepSize": "0.10000000",
+        "minQty": "0.10000000",
+        "maxQty": "90000.00000000",
+        "minNotional": "10.00000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "BNBBTC": {
+        "status": "TRADING",
+        "minPrice": "0.00000100",
+        "maxPrice": "10.00000000",
+        "tickSize": "0.00000100",
+        "stepSize": "0.01000000",
+        "minQty": "0.01000000",
+        "maxQty": "9000.00000000",
+        "minNotional": "0.00010000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "ETHBTC": {
+        "status": "TRADING",
+        "minPrice": "0.00000100",
+        "maxPrice": "100.00000000",
+        "tickSize": "0.00000100",
+        "stepSize": "0.00001000",
+        "minQty": "0.00001000",
+        "maxQty": "9000.00000000",
+        "minNotional": "0.00010000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "LTCBTC": {
+        "status": "TRADING",
+        "minPrice": "0.00000100",
+        "maxPrice": "100.00000000",
+        "tickSize": "0.00000100",
+        "stepSize": "0.00001000",
+        "minQty": "0.00001000",
+        "maxQty": "9000.00000000",
+        "minNotional": "0.00010000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "TRXBTC": {
+        "status": "TRADING",
+        "minPrice": "0.00000001",
+        "maxPrice": "1.00000000",
+        "tickSize": "0.00000001",
+        "stepSize": "0.10000000",
+        "minQty": "0.10000000",
+        "maxQty": "90000.00000000",
+        "minNotional": "0.00010000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "XRPBTC": {
+        "status": "TRADING",
+        "minPrice": "0.00000001",
+        "maxPrice": "1.00000000",
+        "tickSize": "0.00000001",
+        "stepSize": "0.10000000",
+        "minQty": "0.10000000",
+        "maxQty": "90000.00000000",
+        "minNotional": "0.00010000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "LTCBNB": {
+        "status": "TRADING",
+        "minPrice": "0.00010000",
+        "maxPrice": "1000.00000000",
+        "tickSize": "0.00010000",
+        "stepSize": "0.00001000",
+        "minQty": "0.00001000",
+        "maxQty": "9000.00000000",
+        "minNotional": "0.10000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "TRXBNB": {
+        "status": "TRADING",
+        "minPrice": "0.00000010",
+        "maxPrice": "10.00000000",
+        "tickSize": "0.00000010",
+        "stepSize": "0.10000000",
+        "minQty": "0.10000000",
+        "maxQty": "90000.00000000",
+        "minNotional": "0.10000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    },
+    "XRPBNB": {
+        "status": "TRADING",
+        "minPrice": "0.00000100",
+        "maxPrice": "10.00000000",
+        "tickSize": "0.00000100",
+        "stepSize": "0.10000000",
+        "minQty": "0.10000000",
+        "maxQty": "90000.00000000",
+        "minNotional": "0.10000000",
+        "orderTypes": [
+            "LIMIT",
+            "LIMIT_MAKER",
+            "MARKET",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT_LIMIT"
+        ],
+        "icebergAllowed": true
+    }
+}
