@@ -2,13 +2,25 @@ const express = require('express');
 const Binance = require('node-binance-api');
 const util = require('util');
 
-const FIATS = ['EURUSDT', 'GBPUSDT', 'JPYUSDT', 'USDUSDT', 'DOWN', 'UP', 'VNDUSDT'];
+const FIATS = [
+  'EURUSDT',
+  'GBPUSDT',
+  'JPYUSDT',
+  'USDUSDT',
+  'DOWN',
+  'UP',
+  'VNDUSDT',
+  'BCHDOWNUSDT',
+  'BCHUPUSDT',
+];
 
 const app = express();
 const binance = new Binance().options({
   APIKEY: process.env.API_KEY_MAIN,
   APISECRET: process.env.API_SECRET_MAIN,
 });
+
+const intervalInMinutes = process.env.INTERVAL / 60000;
 
 const getPrices = async () => {
   try {
@@ -28,9 +40,24 @@ const getPrices = async () => {
   }
 };
 
-function sleep(ms) {
+const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
+};
+const detectVolatiles = (initialPrices, lastestPrices) => {
+  const volatiles = [];
+  for (const coin in initialPrices) {
+    const changePercentage =
+      ((lastestPrices[coin]['price'] - initialPrices[coin]['price']) / initialPrices[coin]['price']) * 100;
+    if (changePercentage >= process.env.VOLATILE_TRIGGER) {
+      const formatedChange = Number(changePercentage).toFixed(2);
+      console.log(
+        `The ${coin} has the votality of ${formatedChange}% within last ${intervalInMinutes} minutes`
+      );
+      volatiles.push(coin);
+    }
+  }
+  return volatiles;
+};
 
 const main = async () => {
   const initialPrices = await getPrices();
@@ -38,8 +65,8 @@ const main = async () => {
     await sleep(process.env.INTERVAL);
   }
   const lastestPrice = await getPrices();
-  console.log(initialPrices, 'initialPrices');
-  console.log(lastestPrice, 'lastestPrice');
+  const volatiles = detectVolatiles(initialPrices, lastestPrice);
+
   //   console.log(util.inspect(prices, { showHidden: false, depth: null }));
 };
 
