@@ -1,19 +1,8 @@
 const express = require('express');
 require('./exchange-info');
-const { readFile } = require('fs').promises;
+const { readFile, writeFile } = require('fs').promises;
 const binance = require('./binance');
-
-const FIATS = [
-  'EURUSDT',
-  'GBPUSDT',
-  'JPYUSDT',
-  'USDUSDT',
-  'DOWN',
-  'UP',
-  'VNDUSDT',
-  'BCHDOWNUSDT',
-  'BCHUPUSDT',
-];
+const { MARKET_FLAG, FIATS } = require('./constants');
 
 const app = express();
 
@@ -33,7 +22,7 @@ const getPrices = async () => {
     }
     return output;
   } catch (error) {
-    console.log(`There was an error getting prices: ${error}`);
+    console.log(`There was an error getting prices: ${error.body || JSON.stringify(error)}`);
   }
 };
 
@@ -57,31 +46,71 @@ const detectVolatiles = (initialPrices, lastestPrices) => {
 };
 
 const main = async () => {
-  const initialPrices = await getPrices();
-  console.log(initialPrices, 'initialPrices');
-
-  while (initialPrices['BTCUSDT'].time > new Date().getTime() - process.env.INTERVAL) {
-    await sleep(process.env.INTERVAL);
+  try {
+    const initialPrices = await getPrices();
+    while (initialPrices['BTCUSDT'].time > new Date().getTime() - process.env.INTERVAL) {
+      console.log('Not enough time has passed, please wait...');
+      await sleep(process.env.INTERVAL);
+    }
+    const lastestPrice = await getPrices();
+    const volatiles = detectVolatiles(initialPrices, lastestPrice);
+    handleSell(lastestPrice);
+    buyVolatiles(volatiles);
+  } catch (error) {
+    console.log(`Error in excuting main function: ${error.body || JSON.stringify(error)}`);
   }
-  const lastestPrice = await getPrices();
-  console.log(initialPrices, 'initialPrices');
-  console.log(lastestPrice, 'lastestPrice');
-  //   const volatiles = detectVolatiles(initialPrices, lastestPrice);
-
-  //   console.log(util.inspect(prices, { showHidden: false, depth: null }));
 };
 
-const buy = (coin, quantity) => {
-  return new Promise((resolve, reject) => {
-    binance.marketBuy(coin, quantity, (flags = { type: 'MARKET' }), (err, res) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(res);
+const handleSell = async (lastestPrice) => {
+  const orders = JSON.parse(await readFile('orders.json'));
+  const newOrders = [...orders];
+  if (orders.length) {
+    orders.forEach(async ({ symbol, TP_Threshold, SL_Threshold, quantity }) => {
+      try {
+        const { price: coinRecentPrice } = lastestPrice[symbol];
+        if (coinRecentPrice >= TP_Threshold || coinRecentPrice <= SL_Threshold) {
+          const exchangeConfig = JSON.parse(await readFile('exchange-config.json'));
+          const { stepSize } = exchangeConfig[symbol];
+          const acutalQty = returnPercentageOfX(quantity, process.env.ACTUAL_SELL_RATIO);
+          const roundedQty = await binance.roundStep(acutalQty, stepSize);
+          const sellData = await binance.marketSell(symbol, roundedQty, (flags = MARKET_FLAG));
+
+          if (sellData.status === 'FILLED') {
+            newOrders.filter((order) => order.symbol !== symbol);
+          } else {
+            console.log(
+              `Sell order: ${roundedQty} of ${symbol} not executed properly, waiting for another chance to sell...`
+            );
+          }
+        } else {
+          console.log(`${symbol} price hasn't hit SL or TP threshold, continue to wait...`);
+        }
+      } catch (error) {
+        console.log(`Error in excuting sell function: ${error.body || JSON.stringify(error)}`);
       }
     });
-  });
+    await writeFile('orders.json', JSON.stringify(newOrders, null, 4), { flag: 'w' });
+  } else {
+    console.log('The portfolio is currently empty, wait for the chance to buy...');
+  }
 };
+
+main();
+setInterval(() => {
+  main();
+}, process.env.INTERVAL);
+
+// const buy = (coin, quantity) => {
+//   return new Promise((resolve, reject) => {
+//     binance.marketBuy(coin, quantity, (flags = MARKET_FLAG), (err, res) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         resolve(res);
+//       }
+//     });
+//   });
+// };
 
 const calculateBuyingQuantity = async (coin, length) => {
   try {
@@ -91,45 +120,52 @@ const calculateBuyingQuantity = async (coin, length) => {
     const price = await binance.prices(coin);
     const quantity = allowedUSDTtoSpend / price[coin];
     const quantityBasedOnStepSize = await binance.roundStep(quantity, stepSize);
-    return quantityBasedOnStepSize;
+    return { quantityBasedOnStepSize, stepSize };
   } catch (error) {
-    console.log(`Error in calculating quantity: ${error}`);
+    throw `Error in calculating quantity: ${error.body || JSON.stringify(error)}`;
   }
 };
 
 const handleBuy = async (coin, quantity) => {
   try {
-    const orderData = await binance.marketBuy(coin, quantity, (flags = { type: 'MARKET' }));
+    const orderData = await binance.marketBuy(coin, quantity, (flags = MARKET_FLAG));
+    // const orderData = await buy(coin, quantity);
     return orderData;
   } catch (error) {
-    console.log(`Error in executing buy function: ${error}`);
+    throw `Error in executing buy function: ${error.body || JSON.stringify(error)}`;
   }
 };
-const dummy = (volatiles = ['XRPUSDT', 'TRXUSDT']) => {
-  try {
+const returnPercentageOfX = (x, percentage) => {
+  return (percentage * x) / 100;
+};
+const buyVolatiles = (volatiles) => {
+  // const buyVolatiles = (volatiles = ['XRPUSDT', 'TRXUSDT']) => {
+  if (volatiles.length) {
     volatiles.forEach(async (coin) => {
-      const quantity = await calculateBuyingQuantity(coin, volatiles.length);
-      const orderData = await handleBuy(coin, quantity);
-      console.log(orderData);
-      //     const orderData = await buy(coin, quantity);
-      //   console.log(quantity, 'quantity');
+      try {
+        const { quantityBasedOnStepSize: quantity, stepSize } = await calculateBuyingQuantity(
+          coin,
+          volatiles.length
+        );
+        const purchaseData = await handleBuy(coin, quantity);
+        const exisitingOrders = JSON.parse(await readFile('orders.json'));
+        const { price } = purchaseData.fills[0];
+        const orderData = {
+          symbol: coin,
+          quantity,
+          orderId: purchaseData.orderId,
+          price: Number(price),
+          TP_Threshold: Number(price) + returnPercentageOfX(Number(price), process.env.TP_THRESHOLD),
+          SL_Threshold: Number(price) - returnPercentageOfX(Number(price), process.env.SL_THRESHOLD),
+        };
+        exisitingOrders.push(orderData);
+        await writeFile('orders.json', JSON.stringify(exisitingOrders, null, 4), { flag: 'w' });
+        console.log(`Successfully place an order: ${JSON.stringify(orderData)}`);
+      } catch (error) {
+        console.log(error, 'buyVolatiles error');
+      }
     });
-  } catch (error) {
-    console.log(error, 'error');
   }
 };
-
-dummy();
-
-// main();
-// setInterval(() => {
-//   main();
-// }, process.env.INTERVAL);
 
 module.exports = app;
-
-// const calculateQuality =
-
-// const data = await binance.balance();
-
-// console.log(data, 'data');

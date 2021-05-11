@@ -1,0 +1,18 @@
+[
+    {
+        "symbol": "XRPUSDT",
+        "quantity": 26,
+        "orderId": 4712,
+        "price": 1.1508,
+        "TP_Threshold": 1.219848,
+        "SL_Threshold": 1.116276
+    },
+    {
+        "symbol": "TRXUSDT",
+        "quantity": 237.8,
+        "orderId": 6783,
+        "price": 0.12642,
+        "TP_Threshold": 0.13400520000000002,
+        "SL_Threshold": 0.1226274
+    }
+]
