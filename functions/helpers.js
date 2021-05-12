@@ -7,6 +7,10 @@ const sleep = (ms) => {
 
 const intervalInMinutes = process.env.INTERVAL / 60000;
 
+const removeDuplicates = (array) => {
+  return [...new Set(array)];
+};
+
 const detectVolatiles = (initialPrices, lastestPrices) => {
   const volatiles = [];
   for (const coin in initialPrices) {
@@ -20,6 +24,6 @@ const detectVolatiles = (initialPrices, lastestPrices) => {
       volatiles.push(coin);
     }
   }
-  return volatiles;
+  return removeDuplicates(volatiles);
 };
 module.exports = { returnPercentageOfX, sleep, detectVolatiles };

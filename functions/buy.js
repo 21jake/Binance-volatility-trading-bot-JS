@@ -32,6 +32,7 @@ const calculateBuyingQuantity = async (symbol, length, portfolio) => {
     const quantityBasedOnStepSize = await binance.roundStep(quantity, stepSize);
     return quantityBasedOnStepSize;
   } catch (error) {
+    console.log(error);
     throw `Error in calculating quantity: ${JSON.stringify(error)}`;
   }
 };
@@ -42,6 +43,14 @@ const buy = async (coin, quantity) => {
     return orderData;
   } catch (error) {
     throw `Error in executing buy function: ${error.body || JSON.stringify(error)}`;
+  }
+};
+
+const isSymbolBought = (portfolio, symbol) => {
+  if (portfolio.length) {
+    return false;
+  } else {
+    return !portfolio.filter((order) => order.symbol === symbol).length;
   }
 };
 

@@ -16,6 +16,7 @@ const main = async () => {
     }
     const lastestPrice = await getPrices();
     const volatiles = detectVolatiles(initialPrices, lastestPrice);
+
     await handleSell(lastestPrice);
     handleBuy(volatiles);
   } catch (error) {
