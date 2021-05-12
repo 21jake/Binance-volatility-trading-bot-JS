@@ -17,6 +17,7 @@ All the of the variables: Budget, Interval, Take profit or Stop loss thresholds,
 3. If the inital QUANTITY is 50 USDT and there are 2 coins to buy in that interval, the bot allocates 25 USDT for each coin order.
 4. If the inital QUANTITY is 50 USDT and there is one asset worths 30 USDT in the portfolio, the bot will spend 20 USDT for following orders.
 5. The bot is default to sell 99.5% of the bought amount. The reason is sometimes you can't sell 100% of an asset on Binance. If you have some BNBs to pay for transactions then you can set the 99.5% ratio to 100%. This is configurable.
+6. Generally, you better place an order with at least 11 USDT to be accepted by Binance.
 
 # Installation
 
@@ -47,6 +48,4 @@ All the of the variables: Budget, Interval, Take profit or Stop loss thresholds,
 
 # Contribution
 
-If you run into some issues or have some suggestions, feel free to open an issue at the project's repo
-
-I would be more than happy to approve some pull requests from my fellow JS developers/
+If you run into some issues or have some suggestions, feel free to open an issue at the project's repo. I would be more than happy to read/approve some pull requests :).
