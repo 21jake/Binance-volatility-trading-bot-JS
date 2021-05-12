@@ -1,12 +1,11 @@
-const express = require('express');
-require('./getExchangeConfig');
-const { buyVolatiles } = require('./buy');
-const { handleSell } = require('./sell');
-const getPrices = require('./getPrices');
-const { sleep, detectVolatiles } = require('./helpers');
-const binance = require('./binance');
+const https = require('https');
+require('./functions/getExchangeConfig');
+const { handleBuy } = require('./functions/buy');
+const { handleSell } = require('./functions/sell');
+const getPrices = require('./functions/getPrices');
+const { sleep, detectVolatiles } = require('./functions/helpers');
 
-const app = express();
+const app = https.createServer();
 
 const main = async () => {
   try {
@@ -18,8 +17,7 @@ const main = async () => {
     const lastestPrice = await getPrices();
     const volatiles = detectVolatiles(initialPrices, lastestPrice);
     await handleSell(lastestPrice);
-    // buyVolatiles(['XRPUSDT', 'TRXUSDT']);
-    buyVolatiles(volatiles);
+    handleBuy(volatiles);
   } catch (error) {
     console.log(`Error in excuting main function: ${error || JSON.stringify(error)}`);
   }
@@ -29,3 +27,4 @@ main();
 setInterval(main, process.env.INTERVAL);
 
 module.exports = app;
+// handleBuy(['XRPUSDT', 'TRXUSDT']);

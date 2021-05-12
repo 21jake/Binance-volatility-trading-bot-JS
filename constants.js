@@ -15,4 +15,10 @@ const TESTNET_URLS = {
   combineStream: 'wss://testnet.binance.vision/stream?streams=',
   stream: 'wss://testnet.binance.vision/ws/',
 };
-module.exports = { MARKET_FLAG, FIATS, TESTNET_URLS };
+const MAINNET_URLS = {
+  base: 'https://api.binance.com/api/',
+  combineStream: 'wss://stream.binance.com:9443/stream?streams=',
+  stream: 'wss://stream.binance.com:9443/ws/',
+};
+
+module.exports = { MARKET_FLAG, FIATS, TESTNET_URLS, MAINNET_URLS };

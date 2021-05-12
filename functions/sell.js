@@ -1,7 +1,7 @@
-const binance = require('./binance');
+const binance = require('../binance');
 const { readFile, writeFile } = require('fs').promises;
 const { returnPercentageOfX } = require('./helpers');
-const { MARKET_FLAG } = require('./constants');
+const { MARKET_FLAG } = require('../constants');
 
 const sell = async (exchangeConfig, { symbol, quantity }) => {
   try {

@@ -1,5 +1,5 @@
-const { FIATS } = require('./constants');
-const binance = require('./binance');
+const { FIATS } = require('../constants');
+const binance = require('../binance');
 
 const getPrices = async () => {
   try {

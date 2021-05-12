@@ -1,5 +1,5 @@
-const binance = require('./binance');
-const { FIATS } = require('./constants');
+const binance = require('../binance');
+const { FIATS } = require('../constants');
 const { writeFile } = require('fs').promises;
 
 const formatExchangeConfig = (data) => {

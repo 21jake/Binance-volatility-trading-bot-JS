@@ -1,6 +1,6 @@
 const { readFile, writeFile } = require('fs').promises;
-const binance = require('./binance');
-const { MARKET_FLAG, FIATS } = require('./constants');
+const binance = require('../binance');
+const { MARKET_FLAG, FIATS } = require('../constants');
 const { returnPercentageOfX } = require('./helpers');
 
 const calculateBuyingQuantity = async (coin, length) => {
@@ -17,7 +17,7 @@ const calculateBuyingQuantity = async (coin, length) => {
   }
 };
 
-const handleBuy = async (coin, quantity) => {
+const buy = async (coin, quantity) => {
   try {
     const orderData = await binance.marketBuy(coin, quantity, (flags = MARKET_FLAG));
     // const orderData = await buy(coin, quantity);
@@ -27,13 +27,13 @@ const handleBuy = async (coin, quantity) => {
   }
 };
 
-const buyVolatiles = (volatiles) => {
-  // const buyVolatiles = (volatiles = ['XRPUSDT', 'TRXUSDT']) => {
+const handleBuy = (volatiles) => {
+  // const handleBuy = (volatiles = ['XRPUSDT', 'TRXUSDT']) => {
   if (volatiles.length) {
     volatiles.forEach(async (coin) => {
       try {
         const quantity = await calculateBuyingQuantity(coin, volatiles.length);
-        const purchaseData = await handleBuy(coin, quantity);
+        const purchaseData = await buy(coin, quantity);
         const portfolio = JSON.parse(await readFile('orders.json'));
         const { price } = purchaseData.fills[0];
         const orderData = {
@@ -57,4 +57,4 @@ const buyVolatiles = (volatiles) => {
   }
 };
 
-module.exports = { buyVolatiles };
+module.exports = { handleBuy };
