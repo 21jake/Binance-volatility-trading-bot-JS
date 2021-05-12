@@ -53,7 +53,7 @@ const handleSell = async (lastestPrice) => {
       }
     });
   } else {
-    console.log('The portfolio is currently empty, wait for the chance to buy...');
+    console.log('The portfolio is currently empty, wait for the chance to sell...');
   }
 };
 

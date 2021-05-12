@@ -5,8 +5,6 @@ const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-const intervalInMinutes = process.env.INTERVAL / 60000;
-
 const removeDuplicates = (array) => {
   return [...new Set(array)];
 };
@@ -19,7 +17,7 @@ const detectVolatiles = (initialPrices, lastestPrices) => {
     if (changePercentage >= process.env.VOLATILE_TRIGGER) {
       const formatedChange = Number(changePercentage).toFixed(2);
       console.log(
-        `The price of ${coin} has increased ${formatedChange}% within last ${intervalInMinutes} minutes...`
+        `The price of ${coin} has increased ${formatedChange}% within last ${process.env.INTERVAL} minutes...`
       );
       volatiles.push(coin);
     }

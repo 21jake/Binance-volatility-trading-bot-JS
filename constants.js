@@ -1,4 +1,8 @@
 const MARKET_FLAG = { type: 'MARKET' };
+
+// # List of pairs to exclude
+// # by default we're excluding the most popular fiat pairs
+// # and some margin keywords, as we're only working on the SPOT account
 const FIATS = ['EURUSDT', 'GBPUSDT', 'JPYUSDT', 'USDUSDT', 'DOWN', 'UP'];
 const TESTNET_URLS = {
   base: 'https://testnet.binance.vision/api/',

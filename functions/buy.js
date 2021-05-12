@@ -46,14 +46,6 @@ const buy = async (coin, quantity) => {
   }
 };
 
-const isSymbolBought = (portfolio, symbol) => {
-  if (portfolio.length) {
-    return false;
-  } else {
-    return !portfolio.filter((order) => order.symbol === symbol).length;
-  }
-};
-
 const handleBuy = (volatiles) => {
   if (volatiles.length) {
     volatiles.forEach(async (symbol) => {
@@ -79,7 +71,7 @@ const handleBuy = (volatiles) => {
     });
   } else {
     const { VOLATILE_TRIGGER, INTERVAL } = process.env;
-    console.log(`No coin has rised more than ${VOLATILE_TRIGGER}% in the last ${INTERVAL / 60000} minutes`);
+    console.log(`No coin has rised more than ${VOLATILE_TRIGGER}% in the last ${INTERVAL} minutes`);
   }
 };
 
