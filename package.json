@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "node server.js",
+    "start:dev": "node bot.js",
     "start:pro": "NODE_ENV=production node server.js"
   },
   "repository": {

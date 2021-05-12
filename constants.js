@@ -10,4 +10,9 @@ const FIATS = [
   'BCHDOWNUSDT',
   'BCHUPUSDT',
 ];
-module.exports = { MARKET_FLAG, FIATS };
+const TESTNET_URLS = {
+  base: 'https://testnet.binance.vision/api/',
+  combineStream: 'wss://testnet.binance.vision/stream?streams=',
+  stream: 'wss://testnet.binance.vision/ws/',
+};
+module.exports = { MARKET_FLAG, FIATS, TESTNET_URLS };
