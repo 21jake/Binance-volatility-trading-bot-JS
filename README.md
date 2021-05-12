@@ -26,6 +26,7 @@ All the of the variables: Budget, Interval, Take profit or Stop loss thresholds,
         <a href="https://nodejs.org/en/download/">Node JS</a>
     </li>
 </ul>
+
 2. Download the project <a href="https://github.com/21jake/Binance-volatility-trading-bot-JS.git">here</a>
 3. Open the terminal at the root folder, run
 
