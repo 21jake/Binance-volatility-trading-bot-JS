@@ -103,5 +103,7 @@ dist
 # TernJS port file
 .tern-port
 
-#Config file
+# Config file
 config.env
+exchange-config.json
+orders.json

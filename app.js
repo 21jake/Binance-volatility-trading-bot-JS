@@ -18,7 +18,7 @@ const main = async () => {
     const lastestPrice = await getPrices();
     const volatiles = detectVolatiles(initialPrices, lastestPrice);
     await handleSell(lastestPrice);
-    handleBuy(volatiles);
+    await handleBuy(volatiles);
   } catch (error) {
     console.log(`Error in excuting main function: ${error || JSON.stringify(error)}`);
   }
