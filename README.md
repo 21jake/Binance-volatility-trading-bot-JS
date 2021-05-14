@@ -4,13 +4,13 @@ I take the idea from <a href="https://github.com/CyberPunkMetalHead/Binance-vola
 
 Here's the main functions of the bot:
 
-1. Listen to the prices on Binance every interval of 4 minutes.
-2. Figure out which coin's price has increase by 3% in each interval and proceed to buy the coin.
+1. Listen to the prices on Binance for every interval of 4 minutes.
+2. Figure out which coin's price has increase by 3% in each interval and proceed to buy.
 3. Track the bought assets' prices every interval, sell at 6% profit or 3% stop loss.
 
 All the of the variables: Budget, Interval, Take profit or Stop loss thresholds, The change in price to trigger the buy function... are configurable by the user
 
-# Notes:
+# Notes
 
 1. Create a config.env file in the root folder and place your configurations there. <b>For the love of God don't expose this file since it contains your API keys</b>.
 2. If you set the budget (QUANTITY) of 50 USDT, the bot will not spend more than 50 USDT on trading (It checks the current portfolio first before making the purchase decision).
