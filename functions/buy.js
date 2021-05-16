@@ -73,6 +73,7 @@ const handleBuy = async (volatiles) => {
           price: Number(price),
           TP_Threshold: Number(price) + returnPercentageOfX(Number(price), TP_THRESHOLD),
           SL_Threshold: Number(price) - returnPercentageOfX(Number(price), SL_THRESHOLD),
+          purchase_time: new Date().toLocaleString(),
         };
         portfolio.push(orderData);
         console.log(`Successfully place an order: ${JSON.stringify(orderData)}`);
@@ -82,7 +83,7 @@ const handleBuy = async (volatiles) => {
       }
     }
   } else {
-    console.log(`No coin has rised more than ${VOLATILE_TRIGGER}% in the last ${INTERVAL} minutes`);
+    console.log(`No coin has risen more than ${VOLATILE_TRIGGER}% in the last ${INTERVAL} minutes`);
   }
 };
 

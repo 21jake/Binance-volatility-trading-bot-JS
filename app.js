@@ -12,7 +12,7 @@ const main = async () => {
   try {
     const initialPrices = await getPrices();
     while (initialPrices['BTCUSDT'].time > new Date().getTime() - intervalInMs) {
-      console.log('Wait for the bot to gather data to check price votality...');
+      console.log('Wait for the bot to gather data to check price volatility...');
       await sleep(intervalInMs);
     }
     const lastestPrice = await getPrices();

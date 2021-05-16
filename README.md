@@ -39,12 +39,15 @@ All the of the variables: Budget, Interval, Take profit or Stop loss thresholds,
    <br/>
    To retrieve your Binance API Key and Secret on both Testnet and Mainnet, I find no better guide than this one over <a href="https://www.cryptomaton.org/2021/05/08/how-to-code-a-binance-trading-bot-that-detects-the-most-volatile-coins-on-binance/">here</a>
 
-5. The bot is default to run on the Testnet. If you want to switch to Mainnet, set the TEST_MODE constant to false
+5. The bot is default to run on the Testnet. If you want to switch to Mainnet, set the TEST_MODE constant (in the binance.js file) to false
 
    > const TEST_MODE = false;
 
 6. Finally, to start the script, open your terminal and run
+
    > npm run start
+
+7. To stop the bot, hit Ctrl + C combination in the terminal
 
 # Contribution
 
