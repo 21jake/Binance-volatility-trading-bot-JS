@@ -33,16 +33,18 @@ const calculateBuyingQuantity = async (symbol, length, portfolio) => {
     // The budget is splited equally for each order
     let allowedAmountToSpend = QUANTITY / length;
 
-    // Generally the bot will not spend 100% (only like 98-99%) of the budget because the the actual quantity is rounded down
-    // Do not buy if current portolio value is greater than 90% of the orignal quantity
+    /* Generally the bot will not spend 100% (only like 98-99%) of the budget because the the actual quantity is rounded down
+     Do not buy if current portolio value is greater than 90% of the orignal quantity */
     if (currentPortfolioValue >= returnPercentageOfX(QUANTITY, 90)) {
       throw `Current portfolio value exceeds the initial quantity, waiting for the current asset(s) to be sold first...`;
     }
 
-    // In case the allowed amount smaller than the min qty, proceed to buy the with the min qty
-    // For example in an interval, there are 4 coins to buy and the budget is 30...
-    // since you can't buy with 30/4 = 7.5 USDT, the allowed amount is increased to 11
-    // In this case, only the first two coins in this batch will be bought at 11 USDT each, 8 USDT won't be spent
+    /* 
+      In case the allowed amount smaller than the min qty, proceed to buy the with the min qty
+      For example in an interval, there are 4 coins to buy and the budget is 30...
+      since you can't buy with 30/4 = 7.5 USDT, the allowed amount is increased to 11
+      In this case, only the first two coins in this batch will be bought at 11 USDT each, 8 USDT won't be spent
+    */
     if (allowedAmountToSpend < MIN_QUANTITY) {
       allowedAmountToSpend = MIN_QUANTITY;
     }
