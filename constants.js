@@ -25,7 +25,7 @@ const TEST_MODE = true;
  If an asset hits the SL, we sell (In fact, we just sell at SL).
 
  For example, BTCUSDT is bought at 100. TP is 106 (6%) and SL is 97 (3%). 
- When it hits 106, the TP is adjusted to ~106 and SL is ~103. 
+ When it hits 106, the TP is adjusted to ~109 and SL is ~103. 
  Whenever it hits SL (97 or 103...), the bot sells.
 
 Disable this feature by setting "TRAILING_MODE" to false
