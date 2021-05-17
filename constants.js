@@ -14,5 +14,6 @@ const MAINNET_URLS = {
   combineStream: 'wss://stream.binance.com:9443/stream?streams=',
   stream: 'wss://stream.binance.com:9443/ws/',
 };
+const TEST_MODE = true;
 
-module.exports = { MARKET_FLAG, FIATS, TESTNET_URLS, MAINNET_URLS };
+module.exports = { MARKET_FLAG, FIATS, TESTNET_URLS, MAINNET_URLS, TEST_MODE };

@@ -1,8 +1,5 @@
-const { TESTNET_URLS, MAINNET_URLS } = require('./constants');
+const { TESTNET_URLS, MAINNET_URLS, TEST_MODE } = require('./constants');
 const Binance = require('node-binance-api');
-
-// set TEST_MODE = false to switch to the mainnet with REAL money
-const TEST_MODE = true;
 
 const { API_KEY_TEST, API_SECRET_TEST, API_KEY_MAIN, API_SECRET_MAIN } = process.env;
 
