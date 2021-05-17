@@ -1,7 +1,9 @@
 const binance = require('../binance');
 const { readFile, writeFile } = require('fs').promises;
 const { returnPercentageOfX } = require('./helpers');
-const { MARKET_FLAG } = require('../constants');
+
+const { MARKET_FLAG, TRAILING_MODE } = require('../constants');
+const { TP_THRESHOLD, SL_THRESHOLD } = process.env;
 
 const sell = async (exchangeConfig, { symbol, quantity }) => {
   try {
@@ -34,6 +36,47 @@ const handleSellData = async (sellData, coinRecentPrice, order) => {
   }
 };
 
+const changeOrderThresholds = async ({ symbol }, coinRecentPrice) => {
+  try {
+    const orders = JSON.parse(await readFile('orders.json'));
+    const updatedOrders = orders.map((order) => {
+      if (order.symbol !== symbol) {
+        return order;
+      } else {
+        // The TP threshold achieved will act as the base for new TP_Threshold and SL_Threshold
+        const updatedOrder = {
+          ...order,
+          updated_at: new Date().toLocaleString(),
+          order_ATH: Number(coinRecentPrice),
+          TP_Threshold: Number(coinRecentPrice) + returnPercentageOfX(Number(coinRecentPrice), TP_THRESHOLD),
+          SL_Threshold: Number(coinRecentPrice) - returnPercentageOfX(Number(coinRecentPrice), SL_THRESHOLD),
+        };
+        return updatedOrder;
+      }
+    });
+    await writeFile('orders.json', JSON.stringify(updatedOrders, null, 4), { flag: 'w' });
+    console.log(`The ${symbol} has hit TP threshold and we continue to hold as TRAILING MODE activated`);
+  } catch (error) {
+    throw `Error in changing order thresholds: ${error}`;
+  }
+};
+
+const handlePriceHitThreshold = async (exchangeConfig, order, coinRecentPrice) => {
+  try {
+    const { TP_Threshold, SL_Threshold } = order;
+
+    // In TRAILING_MODE, only sell if the asset's price hits SL
+    if (TRAILING_MODE && coinRecentPrice >= TP_Threshold) {
+      await changeOrderThresholds(order, coinRecentPrice);
+    } else if (!TRAILING_MODE || coinRecentPrice <= SL_Threshold) {
+      const sellData = await sell(exchangeConfig, order);
+      await handleSellData(sellData, coinRecentPrice, order);
+    }
+  } catch (error) {
+    throw `Error in handling price hitting threshold: ${error.body || JSON.stringify(error)}`;
+  }
+};
+
 const handleSell = async (lastestPrice) => {
   const orders = JSON.parse(await readFile('orders.json'));
   if (orders.length) {
@@ -42,9 +85,9 @@ const handleSell = async (lastestPrice) => {
       try {
         const { symbol, TP_Threshold, SL_Threshold, quantity } = order;
         const { price: coinRecentPrice } = lastestPrice[symbol];
+
         if (coinRecentPrice >= TP_Threshold || coinRecentPrice <= SL_Threshold) {
-          const sellData = await sell(exchangeConfig, order);
-          await handleSellData(sellData, coinRecentPrice, order);
+          await handlePriceHitThreshold(exchangeConfig, order, coinRecentPrice);
         } else {
           console.log(`${symbol} price hasn't hit SL or TP threshold, continue to wait...`);
         }
