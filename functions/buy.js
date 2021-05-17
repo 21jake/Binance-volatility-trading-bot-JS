@@ -3,8 +3,7 @@ const binance = require('../binance');
 const { MARKET_FLAG } = require('../constants');
 const { returnPercentageOfX } = require('./helpers');
 
-const { VOLATILE_TRIGGER, INTERVAL, QUANTITY, MIN_QUANTITY, PAIR_WITH, TP_THRESHOLD, SL_THRESHOLD } =
-  process.env;
+const { VOLATILE_TRIGGER, INTERVAL, QUANTITY, MIN_QUANTITY, TP_THRESHOLD, SL_THRESHOLD } = process.env;
 
 const calculatePortfolioValue = (portfolio) => {
   let value = 0;
@@ -70,10 +69,12 @@ const handleBuy = async (volatiles) => {
           symbol,
           quantity,
           orderId: purchaseData.orderId,
-          price: Number(price),
+          bought_at: Number(price),
+          order_ATH: Number(price),
           TP_Threshold: Number(price) + returnPercentageOfX(Number(price), TP_THRESHOLD),
           SL_Threshold: Number(price) - returnPercentageOfX(Number(price), SL_THRESHOLD),
           purchase_time: new Date().toLocaleString(),
+          updated_at: new Date().toLocaleString(),
         };
         portfolio.push(orderData);
         console.log(`Successfully place an order: ${JSON.stringify(orderData)}`);
