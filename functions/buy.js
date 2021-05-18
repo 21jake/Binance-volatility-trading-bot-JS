@@ -72,7 +72,6 @@ const handleBuy = async (volatiles) => {
           quantity,
           orderId: purchaseData.orderId,
           bought_at: Number(price),
-          order_ATH: Number(price),
           TP_Threshold: Number(price) + returnPercentageOfX(Number(price), TP_THRESHOLD),
           SL_Threshold: Number(price) - returnPercentageOfX(Number(price), SL_THRESHOLD),
           purchase_time: new Date().toLocaleString(),

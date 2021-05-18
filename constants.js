@@ -28,7 +28,7 @@ const TEST_MODE = true;
  When it hits 106, the TP is adjusted to ~109 and SL is ~103. 
  Whenever it hits SL (97 or 103...), the bot sells.
 
-Disable this feature by setting "TRAILING_MODE" to false
+Disable this feature by setting "TRAILING_MODE" below to false
 */
 
 const TRAILING_MODE = true;
