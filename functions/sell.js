@@ -38,7 +38,7 @@ const handleSellData = async (sellData, coinRecentPrice, order) => {
 
 const changeOrderThresholds = async ({ symbol }, coinRecentPrice) => {
   try {
-    const orders = JSON.parse(await readFile('orders.json'));
+    const orders = JSON.parse(await readFile('current-orders.json'));
     const updatedOrders = orders.map((order) => {
       if (order.symbol !== symbol) {
         return order;
@@ -54,7 +54,7 @@ const changeOrderThresholds = async ({ symbol }, coinRecentPrice) => {
         return updatedOrder;
       }
     });
-    await writeFile('orders.json', JSON.stringify(updatedOrders, null, 4), { flag: 'w' });
+    await writeFile('current-orders.json', JSON.stringify(updatedOrders, null, 4), { flag: 'w' });
     console.log(`The ${symbol} has hit TP threshold and we continue to hold as TRAILING MODE activated`);
   } catch (error) {
     throw `Error in changing order thresholds: ${error}`;
@@ -78,7 +78,7 @@ const handlePriceHitThreshold = async (exchangeConfig, order, coinRecentPrice) =
 };
 
 const handleSell = async (lastestPrice) => {
-  const orders = JSON.parse(await readFile('orders.json'));
+  const orders = JSON.parse(await readFile('current-orders.json'));
   if (orders.length) {
     const exchangeConfig = JSON.parse(await readFile('exchange-config.json'));
     orders.forEach(async (order) => {
@@ -102,9 +102,9 @@ const handleSell = async (lastestPrice) => {
 
 const removeSymbolFromPortfolio = async (symbol) => {
   try {
-    const orders = JSON.parse(await readFile('orders.json'));
+    const orders = JSON.parse(await readFile('current-orders.json'));
     const updatedOrders = orders.filter((order) => order.symbol !== symbol);
-    await writeFile('orders.json', JSON.stringify(updatedOrders, null, 4), { flag: 'w' });
+    await writeFile('current-orders.json', JSON.stringify(updatedOrders, null, 4), { flag: 'w' });
   } catch (error) {
     console.log(`Error in removing symbol from portfolio: ${error}`);
   }
