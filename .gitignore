@@ -106,4 +106,3 @@ dist
 # Config file
 config.env
 exchange-config.json
-orders.json
