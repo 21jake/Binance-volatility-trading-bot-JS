@@ -2,7 +2,7 @@ const binance = require('../binance');
 const { readFile, writeFile } = require('fs').promises;
 const { returnPercentageOfX } = require('./helpers');
 
-const { MARKET_FLAG, TRAILING_MODE } = require('../constants');
+const { MARKET_FLAG, TRAILING_MODE, TEST_MODE } = require('../constants');
 const { TP_THRESHOLD, SL_THRESHOLD } = process.env;
 
 const sell = async (exchangeConfig, { symbol, quantity }) => {
@@ -25,7 +25,7 @@ const saveSuccessOrder = async (order, coinRecentPrice) => {
     const successOrder = {
       ...order,
       sell_time: new Date().toLocaleString(),
-      sell_at: coinRecentPrice,
+      sell_at: Number(coinRecentPrice),
       profit: `${profit.toFixed(2)}%`,
     };
     successOrders.push(successOrder);
@@ -41,7 +41,7 @@ const saveSuccessOrder = async (order, coinRecentPrice) => {
 const handleSellData = async (sellData, coinRecentPrice, order) => {
   try {
     const { symbol, TP_Threshold, SL_Threshold, quantity } = order;
-    if (sellData.status === 'FILLED') {
+    if (TEST_MODE ? sellData.status : sellData.status === 'FILLED') {
       if (coinRecentPrice >= TP_Threshold) {
         console.log(`${symbol} price has hit TP threshold`);
       } else if (coinRecentPrice <= SL_Threshold) {
