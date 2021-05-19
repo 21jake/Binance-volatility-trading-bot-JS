@@ -8,8 +8,8 @@ const { VOLATILE_TRIGGER, INTERVAL, QUANTITY, MIN_QUANTITY, TP_THRESHOLD, SL_THR
 const calculatePortfolioValue = (portfolio) => {
   let value = 0;
   if (portfolio.length) {
-    portfolio.forEach(({ quantity, price }) => {
-      value += quantity * price;
+    portfolio.forEach(({ quantity, bought_at }) => {
+      value += quantity * bought_at;
     });
   }
   return value;
