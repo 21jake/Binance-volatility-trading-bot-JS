@@ -1,5 +1,6 @@
 const { FIATS } = require('../constants');
 const binance = require('../binance');
+const { returnTimeLog } = require('./helpers');
 
 const getPrices = async () => {
   try {
@@ -13,10 +14,11 @@ const getPrices = async () => {
         };
       }
     }
-    // console.log(output, ' output');
     return output;
   } catch (error) {
-    console.log(`There was an error getting prices: ${error.body || JSON.stringify(error)}`);
+    console.log(
+      `${returnTimeLog()} There was an error getting prices: ${error.body || JSON.stringify(error)}`
+    );
   }
 };
 

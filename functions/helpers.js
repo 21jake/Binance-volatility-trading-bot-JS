@@ -17,11 +17,15 @@ const detectVolatiles = (initialPrices, lastestPrices) => {
     if (changePercentage >= process.env.VOLATILE_TRIGGER) {
       const formatedChange = Number(changePercentage).toFixed(2);
       console.log(
-        `The price of ${coin} has increased ${formatedChange}% within last ${process.env.INTERVAL} minutes...`
+        `${returnTimeLog()} The price of ${coin} has increased ${formatedChange}% 
+        within last ${process.env.INTERVAL} minutes...`
       );
       volatiles.push(coin);
     }
   }
   return removeDuplicates(volatiles);
 };
-module.exports = { returnPercentageOfX, sleep, detectVolatiles };
+
+const returnTimeLog = () => `[${new Date().toLocaleString()}] `;
+
+module.exports = { returnPercentageOfX, sleep, detectVolatiles, returnTimeLog };

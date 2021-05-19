@@ -1,5 +1,6 @@
 const { TESTNET_URLS, MAINNET_URLS, TEST_MODE } = require('./constants');
 const Binance = require('node-binance-api');
+const { returnTimeLog } = require('./functions/helpers');
 
 const { API_KEY_TEST, API_SECRET_TEST, API_KEY_MAIN, API_SECRET_MAIN } = process.env;
 
@@ -12,7 +13,7 @@ const binance = new Binance().options({
 
 if (!TEST_MODE) {
   console.log(
-    "You're using the bot on the mainnet with real money, be cautious and don't start with too much quantity!!"
+    `${returnTimeLog()} You're using the bot on the mainnet with real money, be cautious and don't start with too much quantity!!`
   );
 }
 

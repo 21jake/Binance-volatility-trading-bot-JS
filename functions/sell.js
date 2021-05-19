@@ -1,6 +1,6 @@
 const binance = require('../binance');
 const { readFile, writeFile } = require('fs').promises;
-const { returnPercentageOfX } = require('./helpers');
+const { returnPercentageOfX, returnTimeLog } = require('./helpers');
 
 const { MARKET_FLAG, TRAILING_MODE, TEST_MODE } = require('../constants');
 const { TP_THRESHOLD, SL_THRESHOLD } = process.env;
@@ -43,15 +43,15 @@ const handleSellData = async (sellData, coinRecentPrice, order) => {
     const { symbol, TP_Threshold, SL_Threshold, quantity } = order;
     if (TEST_MODE ? sellData.status : sellData.status === 'FILLED') {
       if (coinRecentPrice >= TP_Threshold) {
-        console.log(`${symbol} price has hit TP threshold`);
+        console.log(`${returnTimeLog()} ${symbol} price has hit TP threshold`);
       } else if (coinRecentPrice <= SL_Threshold) {
-        console.log(`${symbol} price has hit SL threshold`);
+        console.log(`${returnTimeLog()} ${symbol} price has hit SL threshold`);
       }
       await saveSuccessOrder(order, coinRecentPrice);
       await removeSymbolFromPortfolio(symbol);
     } else {
       console.log(
-        `Sell order: ${quantity} of ${symbol} not executed properly by Binance, waiting for another chance to sell...`
+        `${returnTimeLog()} Sell order: ${quantity} of ${symbol} not executed properly by Binance, waiting for another chance to sell...`
       );
     }
   } catch (error) {
@@ -77,7 +77,9 @@ const changeOrderThresholds = async ({ symbol }, coinRecentPrice) => {
       }
     });
     await writeFile('current-orders.json', JSON.stringify(updatedOrders, null, 4), { flag: 'w' });
-    console.log(`The ${symbol} has hit TP threshold and we continue to hold as TRAILING MODE activated`);
+    console.log(
+      `${returnTimeLog()} The ${symbol} has hit TP threshold and we continue to hold as TRAILING MODE activated`
+    );
   } catch (error) {
     throw `Error in changing order thresholds: ${error}`;
   }
@@ -111,14 +113,16 @@ const handleSell = async (lastestPrice) => {
         if (coinRecentPrice >= TP_Threshold || coinRecentPrice <= SL_Threshold) {
           await handlePriceHitThreshold(exchangeConfig, order, coinRecentPrice);
         } else {
-          console.log(`${symbol} price hasn't hit SL or TP threshold, continue to wait...`);
+          console.log(
+            `${returnTimeLog()} ${symbol} price hasn't hit SL or TP threshold, continue to wait...`
+          );
         }
       } catch (error) {
-        console.log(`Error in excuting sell function: ${JSON.stringify(error)}`);
+        console.log(`${returnTimeLog()} Error in excuting sell function: ${JSON.stringify(error)}`);
       }
     });
   } else {
-    console.log('The portfolio is currently empty, wait for the chance to sell...');
+    console.log(`${returnTimeLog()} The portfolio is currently empty, wait for the chance to sell...`);
   }
 };
 
@@ -128,7 +132,7 @@ const removeSymbolFromPortfolio = async (symbol) => {
     const updatedOrders = orders.filter((order) => order.symbol !== symbol);
     await writeFile('current-orders.json', JSON.stringify(updatedOrders, null, 4), { flag: 'w' });
   } catch (error) {
-    console.log(`Error in removing symbol from portfolio: ${error}`);
+    console.log(`${returnTimeLog()} Error in removing symbol from portfolio: ${error}`);
   }
 };
 

@@ -1,6 +1,7 @@
 const binance = require('../binance');
 const { FIATS } = require('../constants');
 const { writeFile } = require('fs').promises;
+const { returnTimeLog } = require('./helpers');
 
 const formatExchangeConfig = (data) => {
   let minimums = {};
@@ -46,6 +47,6 @@ module.exports = (async () => {
     const formatedData = formatExchangeConfig(data);
     await writeFile('exchange-config.json', JSON.stringify(formatedData, null, 4));
   } catch (error) {
-    console.log(`Error in getting exchange config: ${error}`);
+    console.log(`${returnTimeLog()} Error in getting exchange config: ${error}`);
   }
 })();
