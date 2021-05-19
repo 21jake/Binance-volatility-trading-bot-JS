@@ -1,7 +1,7 @@
 const { readFile, writeFile } = require('fs').promises;
 const binance = require('../binance');
 const { MARKET_FLAG } = require('../constants');
-const { returnPercentageOfX } = require('./helpers');
+const { returnPercentageOfX, returnTimeLog } = require('./helpers');
 
 const { VOLATILE_TRIGGER, INTERVAL, QUANTITY, MIN_QUANTITY, TP_THRESHOLD, SL_THRESHOLD } = process.env;
 
@@ -54,7 +54,6 @@ const calculateBuyingQuantity = async (symbol, length, portfolio) => {
     const quantityBasedOnStepSize = await binance.roundStep(quantity, stepSize);
     return quantityBasedOnStepSize;
   } catch (error) {
-    console.log(error);
     throw `Error in calculating quantity: ${JSON.stringify(error)}`;
   }
 };
@@ -78,14 +77,20 @@ const handleBuy = async (volatiles) => {
           updated_at: new Date().toLocaleString(),
         };
         portfolio.push(orderData);
-        console.log(`Successfully place an order: ${JSON.stringify(orderData)}`);
+        console.log(`${returnTimeLog()} Successfully place an order: ${JSON.stringify(orderData)}`);
         await writeFile('current-orders.json', JSON.stringify(portfolio, null, 4), { flag: 'w' });
       } catch (error) {
-        console.log(`Error in executing buying volatiles function: ${error.body || JSON.stringify(error)}`);
+        console.log(
+          `${returnTimeLog()} Error in executing buying volatiles function: ${
+            error.body || JSON.stringify(error)
+          }`
+        );
       }
     }
   } else {
-    console.log(`No coin has risen more than ${VOLATILE_TRIGGER}% in the last ${INTERVAL} minutes`);
+    console.log(
+      `${returnTimeLog()} No coin has risen more than ${VOLATILE_TRIGGER}% in the last ${INTERVAL} minutes`
+    );
   }
 };
 
