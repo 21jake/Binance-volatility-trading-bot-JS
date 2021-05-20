@@ -1,3 +1,5 @@
+const { readFile, writeFile } = require('fs').promises;
+
 const returnPercentageOfX = (x, percentage) => {
   return (percentage * x) / 100;
 };
@@ -28,4 +30,36 @@ const detectVolatiles = (initialPrices, lastestPrices) => {
 
 const returnTimeLog = () => `[${new Date().toLocaleString()}] `;
 
-module.exports = { returnPercentageOfX, sleep, detectVolatiles, returnTimeLog };
+const readPortfolio = async () => {
+  try {
+    return JSON.parse(await readFile('holding-assets.json'));
+  } catch (error) {
+    throw `Error reading portfolio: ${error}`;
+  }
+};
+
+const savePortfolio = async (data) => {
+  try {
+    await writeFile('holding-assets.json', JSON.stringify(data, null, 4), { flag: 'w' });
+  } catch (error) {
+    throw `Error saving portfolio: ${error}`;
+  }
+};
+
+const getBinanceConfig = async () => {
+  try {
+    return JSON.parse(await readFile('exchange-config.json'));
+  } catch (error) {
+    throw `Error getting exchange config: ${error}`;
+  }
+};
+
+module.exports = {
+  returnPercentageOfX,
+  sleep,
+  getBinanceConfig,
+  detectVolatiles,
+  returnTimeLog,
+  readPortfolio,
+  savePortfolio,
+};
