@@ -4,9 +4,14 @@ const { handleBuy } = require('./functions/buy');
 const { handleSell } = require('./functions/sell');
 const getPrices = require('./functions/getPrices');
 const { sleep, detectVolatiles, returnTimeLog } = require('./functions/helpers');
+const safeScan = require('./functions/scan');
+const { SAFE_MODE } = require('./constants');
 
 const app = https.createServer();
-const intervalInMs = process.env.INTERVAL * 60000;
+
+const { INTERVAL, SCAN_INTERVAL } = process.env;
+const intervalInMs = INTERVAL * 60000;
+const scanIntervalInMs = SCAN_INTERVAL * 60000;
 
 const main = async () => {
   try {
@@ -26,5 +31,9 @@ const main = async () => {
 
 main();
 setInterval(main, intervalInMs);
+
+if (SAFE_MODE) {
+  setInterval(safeScan, scanIntervalInMs);
+}
 
 module.exports = app;

@@ -1,6 +1,12 @@
 const binance = require('../binance');
 const { readFile, writeFile } = require('fs').promises;
-const { returnPercentageOfX, returnTimeLog, savePortfolio } = require('./helpers');
+const {
+  returnPercentageOfX,
+  returnTimeLog,
+  savePortfolio,
+  readPortfolio,
+  getBinanceConfig,
+} = require('./helpers');
 
 const { MARKET_FLAG, TRAILING_MODE, TEST_MODE } = require('../constants');
 const { TP_THRESHOLD, SL_THRESHOLD } = process.env;
@@ -20,18 +26,19 @@ const sell = async (exchangeConfig, { symbol, quantity }) => {
 const saveSuccessOrder = async (order, coinRecentPrice) => {
   try {
     const successOrders = JSON.parse(await readFile('sold-assets.json'));
-    const profit = ((coinRecentPrice - order.bought_at) / order.bought_at) * 100;
+    const displayProfit = ((coinRecentPrice - order.bought_at) / order.bought_at) * 100;
 
     const successOrder = {
       ...order,
       sell_time: new Date().toLocaleString(),
       sell_at: Number(coinRecentPrice),
-      profit: `${profit.toFixed(2)}%`,
+      profit: `${displayProfit.toFixed(2)}%`,
     };
     successOrders.push(successOrder);
     await writeFile('sold-assets.json', JSON.stringify(successOrders, null, 4), { flag: 'w' });
+    const { symbol, profit } = successOrder;
     console.log(
-      `The asset ${successOrder.symbol} has been sold sucessfully at the profit of ${successOrder.profit} and recorded in sold-assets.json`
+      `${returnTimeLog()} The asset ${symbol} has been sold sucessfully at the profit of ${profit} and recorded in sold-assets.json`
     );
   } catch (error) {
     throw `Error in saving success order: ${error}`;
@@ -104,7 +111,7 @@ const handlePriceHitThreshold = async (exchangeConfig, order, coinRecentPrice) =
 const handleSell = async (lastestPrice) => {
   const orders = await readPortfolio();
   if (orders.length) {
-    const exchangeConfig = JSON.parse(await readFile('exchange-config.json'));
+    const exchangeConfig = await getBinanceConfig();
     orders.forEach(async (order) => {
       try {
         const { symbol, TP_Threshold, SL_Threshold, quantity } = order;
@@ -136,4 +143,4 @@ const removeSymbolFromPortfolio = async (symbol) => {
   }
 };
 
-module.exports = { handleSell };
+module.exports = { handleSell, sell, handleSellData };

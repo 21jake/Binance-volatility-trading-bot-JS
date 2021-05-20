@@ -46,4 +46,20 @@ const savePortfolio = async (data) => {
   }
 };
 
-module.exports = { returnPercentageOfX, sleep, detectVolatiles, returnTimeLog, readPortfolio, savePortfolio };
+const getBinanceConfig = async () => {
+  try {
+    return JSON.parse(await readFile('exchange-config.json'));
+  } catch (error) {
+    throw `Error getting exchange config: ${error}`;
+  }
+};
+
+module.exports = {
+  returnPercentageOfX,
+  sleep,
+  getBinanceConfig,
+  detectVolatiles,
+  returnTimeLog,
+  readPortfolio,
+  savePortfolio,
+};

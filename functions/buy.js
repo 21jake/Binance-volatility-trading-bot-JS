@@ -1,7 +1,13 @@
 const { readFile } = require('fs').promises;
 const binance = require('../binance');
 const { MARKET_FLAG } = require('../constants');
-const { returnPercentageOfX, returnTimeLog, readPortfolio, savePortfolio } = require('./helpers');
+const {
+  returnPercentageOfX,
+  returnTimeLog,
+  readPortfolio,
+  savePortfolio,
+  getBinanceConfig,
+} = require('./helpers');
 
 const { VOLATILE_TRIGGER, INTERVAL, QUANTITY, MIN_QUANTITY, TP_THRESHOLD, SL_THRESHOLD } = process.env;
 
@@ -26,7 +32,7 @@ const buy = async (coin, quantity) => {
 
 const calculateBuyingQuantity = async (symbol, length, portfolio) => {
   try {
-    const exchangeConfig = JSON.parse(await readFile('exchange-config.json'));
+    const exchangeConfig = await getBinanceConfig();
     const { stepSize } = exchangeConfig[symbol];
     const currentPortfolioValue = calculatePortfolioValue(portfolio);
 
@@ -74,6 +80,7 @@ const handleBuy = async (volatiles) => {
           TP_Threshold: Number(price) + returnPercentageOfX(Number(price), TP_THRESHOLD),
           SL_Threshold: Number(price) - returnPercentageOfX(Number(price), SL_THRESHOLD),
           purchase_time: new Date().toLocaleString(),
+          purchase_time_unix: new Date().getTime(),
           updated_at: new Date().toLocaleString(),
         };
         portfolio.push(orderData);
