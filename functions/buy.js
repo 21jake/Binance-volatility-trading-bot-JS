@@ -62,7 +62,7 @@ const handleBuy = async (volatiles) => {
   if (volatiles.length) {
     for (const symbol of volatiles) {
       try {
-        const portfolio = JSON.parse(await readFile('current-orders.json'));
+        const portfolio = JSON.parse(await readFile('holding-assets.json'));
         const quantity = await calculateBuyingQuantity(symbol, volatiles.length, portfolio);
         const purchaseData = await buy(symbol, quantity);
         const { price } = purchaseData.fills[0];
@@ -78,7 +78,7 @@ const handleBuy = async (volatiles) => {
         };
         portfolio.push(orderData);
         console.log(`${returnTimeLog()} Successfully place an order: ${JSON.stringify(orderData)}`);
-        await writeFile('current-orders.json', JSON.stringify(portfolio, null, 4), { flag: 'w' });
+        await writeFile('holding-assets.json', JSON.stringify(portfolio, null, 4), { flag: 'w' });
       } catch (error) {
         console.log(
           `${returnTimeLog()} Error in executing buying volatiles function: ${
